@@ -8,11 +8,15 @@
         <outputRelativeToContentRoot value="true" />
         <module name="tutorials" />
         <module name="sprtutors" />
+        <module name="my-app" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="my-app" target="13" />
       <module name="spring-tutorials" target="13" />
+      <module name="spring-tutors" target="13" />
       <module name="sprtutors" target="11" />
+      <module name="st" target="13" />
       <module name="tutorials" target="13" />
     </bytecodeTargetLevel>
   </component>

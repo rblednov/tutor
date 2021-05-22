@@ -2,15 +2,18 @@ package ru.rblednov.tutors;
 
 import java.io.IOException;
 import java.util.Properties;
+import ru.rblednov.tutors.messageprovider.MessageProvider;
+import ru.rblednov.tutors.messagerenderer.MessageRenderer;
 
 public class MessageSupportFactory {
     private static MessageSupportFactory instance;
     private Properties props;
     MessageRenderer messageRenderer;
     MessageProvider messageProvider;
-    private MessageSupportFactory(){
+
+    private MessageSupportFactory() {
         props = new Properties();
-        try{
+        try {
             props.load(this.getClass().getResourceAsStream("/msf.properties"));
             String renderClass = props.getProperty("renderer.class");
             String providerClass = props.getProperty("provider.class");
@@ -24,10 +27,12 @@ public class MessageSupportFactory {
             e.printStackTrace();
         }
     }
+
     static {
         instance = new MessageSupportFactory();
     }
-    public static MessageSupportFactory getInstance(){
+
+    public static MessageSupportFactory getInstance() {
         return instance;
     }
 

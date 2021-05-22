@@ -1,10 +1,15 @@
-package ru.rblednov.tutors;
+package ru.rblednov.tutors.messagerenderer;
 
-public class SysOutMessageRendere implements MessageRenderer{
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import ru.rblednov.tutors.messageprovider.MessageProvider;
+@Service("renderer")
+public class SysOutMessageRenderer implements MessageRenderer {
     MessageProvider messageProvider;
+
     @Override
     public void render() {
-        if(messageProvider == null){
+        if (messageProvider == null) {
             throw new RuntimeException("qwe");
         }
         System.out.println(messageProvider.getMessage());
