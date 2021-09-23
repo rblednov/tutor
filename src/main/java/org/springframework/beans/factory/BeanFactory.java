@@ -7,19 +7,27 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import org.springframework.beans.factory.annatation.Autowired;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.stereotype.Component;
 import org.springframework.beans.factory.stereotype.Service;
 
 public class BeanFactory {
     Map<String, Object> singletons = new HashMap<>();
+    List<BeanPostProcessor> postProcessors = new ArrayList<>();
 
     public Object getBean(String beanName) {
         return singletons.get(beanName);
+    }
+
+    public void addPostProcessor(BeanPostProcessor postProcessor) {
+        postProcessors.add(postProcessor);
     }
 
     public void injectBeanNames() {
@@ -43,9 +51,18 @@ public class BeanFactory {
 
     public void initialiseBeans() {
         System.out.println("====initialiseBeans====");
-        for (Object object : singletons.values()) {
-            if (object instanceof InitializingBean) {
-                ((InitializingBean) object).afterPropertiesSet();
+        for (Map.Entry<String, Object> pair : singletons.entrySet()) {
+            String name = pair.getKey();
+            Object bean = pair.getValue();
+
+            for (BeanPostProcessor postProcessor : postProcessors) {
+                postProcessor.postProcessBeforeInitialisation(bean, name);
+            }
+            if (bean instanceof InitializingBean) {
+                ((InitializingBean) bean).afterPropertiesSet();
+            }
+            for (BeanPostProcessor postProcessor : postProcessors) {
+                postProcessor.postProcessAfterInitialisation(bean, name);
             }
         }
     }

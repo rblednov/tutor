@@ -11,6 +11,7 @@ public class Main {
 
 
         BeanFactory beanFactory = new BeanFactory();
+        beanFactory.addPostProcessor(new CustomPostProcessor());
         beanFactory.instantinate("ru.rblednov.tutors.selfspring");
         beanFactory.populateProperties();
         beanFactory.injectBeanNames();
