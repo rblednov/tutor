@@ -1,4 +1,4 @@
-package ru.rblednov.tutors.dynamicprogramming;
+package ru.rblednov.tutors.algorithms.dynamicprogramming;
 
 import java.util.Scanner;
 

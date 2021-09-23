@@ -1,4 +1,4 @@
-package ru.rblednov.tutors.pointsonline;
+package ru.rblednov.tutors.algorithms.pointsonline;
 
 import java.util.LinkedList;
 import java.util.Scanner;

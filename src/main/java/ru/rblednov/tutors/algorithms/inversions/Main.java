@@ -1,4 +1,4 @@
-package ru.rblednov.tutors.inversions;
+package ru.rblednov.tutors.algorithms.inversions;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

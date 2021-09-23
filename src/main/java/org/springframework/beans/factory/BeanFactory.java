@@ -2,23 +2,76 @@ package org.springframework.beans.factory;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import org.springframework.beans.factory.annatation.Autowired;
 import org.springframework.beans.factory.stereotype.Component;
+import org.springframework.beans.factory.stereotype.Service;
 
 public class BeanFactory {
-    Map<String, Object> singletons;
+    Map<String, Object> singletons = new HashMap<>();
 
     public Object getBean(String beanName) {
         return singletons.get(beanName);
     }
 
+    public void injectBeanNames() {
+        System.out.println("====injectBeanNames====");
+        for (String name : singletons.keySet()) {
+            Object singleton = singletons.get(name);
+            if (singleton instanceof BeanNameAware) {
+                ((BeanNameAware) singleton).setBeanName(name);
+            }
+        }
+    }
+
+    public void injectBeanFactory() {
+        System.out.println("====injectBeanFactory====");
+        for (Object object : singletons.values()) {
+            if (object instanceof BeanFactoryAware) {
+                ((BeanFactoryAware) object).setBeanFactory(this);
+            }
+        }
+    }
+
+    public void initialiseBeans() {
+        System.out.println("====initialiseBeans====");
+        for (Object object : singletons.values()) {
+            if (object instanceof InitializingBean) {
+                ((InitializingBean) object).afterPropertiesSet();
+            }
+        }
+    }
+
+    public void populateProperties() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        System.out.println("====populateProperties====");
+        for (Map.Entry<String, Object> sinletonMapEntry : singletons.entrySet()) {
+            for (Field field : sinletonMapEntry.getValue().getClass().getDeclaredFields()) {
+                if (field.isAnnotationPresent(Autowired.class)) {
+                    for (Object dependency : singletons.values()) {
+                        if (field.getType().equals(dependency.getClass())) {
+                            String setterName = "set" + firstLetterToUpper(field.getName());
+                            System.out.println("setterName: " + setterName);
+                            Method setter = sinletonMapEntry.getValue().getClass()
+                                    .getMethod(setterName, dependency.getClass());
+                            setter.invoke(sinletonMapEntry.getValue(), dependency);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public void instantinate(String basePackage)
             throws IOException, URISyntaxException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        System.out.println("====Instantinate beans====");
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         String path = basePackage.replace(".", "/");
         Enumeration<URL> urlEnumeration = classLoader.getResources(path);
@@ -33,11 +86,24 @@ public class BeanFactory {
                     if (classObject.isAnnotationPresent(Component.class)) {
                         System.out.println("Component: " + classObject);
                         Object instance = classObject.getDeclaredConstructor().newInstance();
-                        String beanName = className.substring(0, 1).toLowerCase() + className.substring(1);
+                        String beanName = firstLetterToLower(className);
+                        singletons.put(beanName, instance);
+                    } else if (classObject.isAnnotationPresent(Service.class)) {
+                        System.out.println("Service: " + classObject);
+                        Object instance = classObject.getDeclaredConstructor().newInstance();
+                        String beanName = firstLetterToLower(className);
                         singletons.put(beanName, instance);
                     }
                 }
             }
         }
+    }
+
+    private String firstLetterToLower(String className) {
+        return className.substring(0, 1).toLowerCase() + className.substring(1);
+    }
+
+    private String firstLetterToUpper(String className) {
+        return className.substring(0, 1).toUpperCase() + className.substring(1);
     }
 }

@@ -1,9 +1,12 @@
 package ru.rblednov.tutors.selfspring;
 
-import org.springframework.beans.factory.stereotype.Component;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annatation.Autowired;
+import org.springframework.beans.factory.stereotype.Service;
 
-@Component
-public class ProductService {
+@Service
+public class ProductService implements InitializingBean {
+    @Autowired
     private PromotionService promotionService;
 
     public PromotionService getPromotionService() {
@@ -12,5 +15,10 @@ public class ProductService {
 
     public void setPromotionService(PromotionService promotionService) {
         this.promotionService = promotionService;
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        System.out.println("ProductService: afterPropertiesSet()");
     }
 }

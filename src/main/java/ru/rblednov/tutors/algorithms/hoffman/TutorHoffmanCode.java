@@ -1,4 +1,4 @@
-package ru.rblednov.tutors.hoffman;
+package ru.rblednov.tutors.algorithms.hoffman;
 
 import java.util.HashMap;
 import java.util.Map;

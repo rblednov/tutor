@@ -1,4 +1,4 @@
-package ru.rblednov.tutors.priorityq;
+package ru.rblednov.tutors.algorithms.priorityq;
 
 import java.util.ArrayList;
 import java.util.List;

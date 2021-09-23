@@ -1,4 +1,4 @@
-package ru.rblednov.tutors.antisort_6_8;
+package ru.rblednov.tutors.algorithms.antisort_6_8;
 
 import java.util.Scanner;
 /*

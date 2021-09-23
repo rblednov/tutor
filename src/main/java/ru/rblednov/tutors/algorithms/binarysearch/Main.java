@@ -1,4 +1,4 @@
-package ru.rblednov.tutors.binarysearch;
+package ru.rblednov.tutors.algorithms.binarysearch;
 
 import java.util.Arrays;
 import java.util.Scanner;
