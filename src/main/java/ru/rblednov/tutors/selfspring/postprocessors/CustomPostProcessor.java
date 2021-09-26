@@ -1,4 +1,4 @@
-package ru.rblednov.tutors.selfspring;
+package ru.rblednov.tutors.selfspring.postprocessors;
 
 import org.springframework.beans.factory.config.BeanPostProcessor;
 

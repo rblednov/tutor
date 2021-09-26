@@ -3,12 +3,18 @@ package ru.rblednov.tutors.selfspring;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.annatation.PostConstruct;
 import org.springframework.beans.factory.stereotype.Service;
 
 @Service
 public class PromotionService implements BeanNameAware, BeanFactoryAware {
     private String beanName;
     private BeanFactory beanFactory;
+
+    @PostConstruct
+    public void init() {
+        System.out.println("---@PostConstruct---");
+    }
 
     @Override
     public String toString() {

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import org.springframework.beans.factory.BeanFactory;
+import ru.rblednov.tutors.selfspring.postprocessors.CommonAnnotationBeanPostProcessor;
+import ru.rblednov.tutors.selfspring.postprocessors.CustomPostProcessor;
 
 public class Main {
     public static void main(String[] args)
@@ -12,6 +14,7 @@ public class Main {
 
         BeanFactory beanFactory = new BeanFactory();
         beanFactory.addPostProcessor(new CustomPostProcessor());
+        beanFactory.addPostProcessor(new CommonAnnotationBeanPostProcessor());
         beanFactory.instantinate("ru.rblednov.tutors.selfspring");
         beanFactory.populateProperties();
         beanFactory.injectBeanNames();

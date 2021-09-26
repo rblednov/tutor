@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import org.springframework.beans.factory.annatation.Autowired;
+import org.springframework.beans.factory.annatation.PostConstruct;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.stereotype.Component;
 import org.springframework.beans.factory.stereotype.Service;
@@ -49,7 +50,7 @@ public class BeanFactory {
         }
     }
 
-    public void initialiseBeans() {
+    public void initialiseBeans() throws InvocationTargetException, IllegalAccessException {
         System.out.println("====initialiseBeans====");
         for (Map.Entry<String, Object> pair : singletons.entrySet()) {
             String name = pair.getKey();
