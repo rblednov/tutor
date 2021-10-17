@@ -1,12 +1,10 @@
-package ru.rblednov.tutors.abstracttutor;
+package ru.rblednov.tutors.multithreding;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
 
-public class Tutor {
-    public static final String block1 = "1";
+public class PingPong {
+    public static final String lockObject = "1";
     public static final String block2 = "2";
 
     public static void main(String[] args) throws InterruptedException {
@@ -21,11 +19,11 @@ public class Tutor {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                synchronized (block1){
-                    block1.notify();
+                synchronized (lockObject) {
+                    lockObject.notify();
                     System.out.println(rName);
                     try {
-                        block1.wait();
+                        lockObject.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -41,21 +39,20 @@ public class Tutor {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                synchronized (block1){
-                    block1.notify();
+                synchronized (lockObject) {
+                    lockObject.notify();
                     System.out.println(rName);
                     try {
-                        block1.wait();
+                        lockObject.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
             }
         };
-        Thread t1 = new Thread(ping);
-        Thread t2 = new Thread(pong);
-        t1.start();
-        t2.start();
+        forkJoinPool.submit(ping);
+        ForkJoinTask<?> forkJoinTask = forkJoinPool.submit(pong);
+        forkJoinTask.join();
         System.out.println("end main");
     }
 }
