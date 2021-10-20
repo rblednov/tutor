@@ -1,4 +1,4 @@
-package ru.rblednov.tutors.algorithms.dynamicprog.backpackfill;
+package ru.rblednov.tutors.algorithms.dynamicprogramming.backpackfill;
 
 import java.util.Scanner;
 

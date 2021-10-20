@@ -1,4 +1,4 @@
-package ru.rblednov.tutors.algorithms.dynamicprog.editdist;
+package ru.rblednov.tutors.algorithms.dynamicprogramming.editdist;
 
 import java.util.Scanner;
 
@@ -25,7 +25,7 @@ public class Main {
         //BottomUp
         for (int i = 1; i <= iMax; i++) {
             for (int j = 1; j <= jMax; j++) {
-                D[i][j] = min(
+                D[i][j] = min3(
                         D[i - 1][j] + 1,
                         D[i][j - 1] + 1,
                         D[i - 1][j - 1] + diff(wordA.charAt(i-1), wordB.charAt(j-1)));
@@ -40,7 +40,7 @@ public class Main {
         return first == second ? 0 : 1;
     }
 
-    private static int min(int i, int i1, int i2) {
+    private static int min3(int i, int i1, int i2) {
         if (i <= i1 && i <= i2) {
             return i;
         }
