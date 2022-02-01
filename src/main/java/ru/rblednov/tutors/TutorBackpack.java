@@ -6,30 +6,39 @@ import java.util.Scanner;
 
 public class TutorBackpack {
     public static void main(String[] args) {
-
         Scanner s = new Scanner(System.in);
-        int amount = s.nextInt();
-        int bpVolume = s.nextInt();
-        double result = 0F;
-        float[][] showcase = new float[amount][2];
-        for (int i = 0; i < amount; i++) {
-            int price = s.nextInt();
-            int volume = s.nextInt();
-            showcase[i][0] = (float) volume;
-            showcase[i][1] = (-1) * ((float) price / (float) volume);
-        }
-        Arrays.sort(showcase, Comparator.comparingDouble(x -> x[1]));
-
-        for (int i = 0; i < amount; i++) {
-            showcase[i][1] = -showcase[i][1];
-            if (bpVolume <= showcase[i][0]) {
-                result = result + ((float) bpVolume) * showcase[i][1];
-                break;
-            } else {
-                bpVolume = bpVolume - (int) showcase[i][0];
-                result = result + showcase[i][0] * showcase[i][1];
+        Integer a = s.nextInt();
+        for (int i = 0;i<=a;i++) {
+            if(i%2==0){
+                System.err.println("саня чорт");
             }
         }
-        System.out.println(String.format("%.3f", result));
     }
+//    public static void main(String[] args) {
+//
+//        Scanner s = new Scanner(System.in);
+//        int amount = s.nextInt();
+//        int bpVolume = s.nextInt();
+//        double result = 0F;
+//        float[][] showcase = new float[amount][2];
+//        for (int i = 0; i < amount; i++) {
+//            int price = s.nextInt();
+//            int volume = s.nextInt();
+//            showcase[i][0] = (float) volume;
+//            showcase[i][1] = (-1) * ((float) price / (float) volume);
+//        }
+//        Arrays.sort(showcase, Comparator.comparingDouble(x -> x[1]));
+//
+//        for (int i = 0; i < amount; i++) {
+//            showcase[i][1] = -showcase[i][1];
+//            if (bpVolume <= showcase[i][0]) {
+//                result = result + ((float) bpVolume) * showcase[i][1];
+//                break;
+//            } else {
+//                bpVolume = bpVolume - (int) showcase[i][0];
+//                result = result + showcase[i][0] * showcase[i][1];
+//            }
+//        }
+//        System.out.println(String.format("%.3f", result));
+//    }
 }
